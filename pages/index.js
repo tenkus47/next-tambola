@@ -17,13 +17,9 @@ export default function Play() {
   const { random, list } = useSelector((state) => state.NumberGenerate);
   const { speak } = useSpeechSynthesis();
   var showRand = ""; 
-  const [table, setTable] = useState();
-   const [winnerlist, setwinnerlist] = useState();
-   const [listofwinner, setlistofwinner] = useState(false);
    const [showcel,setshowcel]=useState();
  const [showornot,setShowornot]=useState('show');
    var [anouncedN,setanouncedN] = useState();
-   const [showElement, setShowElement] = useState({});
    const dispatch = useDispatch();
 
   useEffect(() => {
@@ -151,14 +147,7 @@ export default function Play() {
       showRand = "";
     }, 3000);
   }, [random]);
-  useEffect(() => {
-    var id = showElement.id ? parseInt(showElement.id) : 0;
-    const fetcher = async () => {
-      var res = await axios.get(serverURL + `/getlist/${id}`);
-     setTable(res.data[0]);
-    };
-    fetcher();
-  }, [showElement]);
+  
   useEffect(() => {
     const fetcher = async () => {
       var { data } = await axios.get(serverURL + "/anounced");
@@ -174,45 +163,6 @@ export default function Play() {
     fetcher();
   }, [random]);
 
-  useEffect(() => {
-    axios.get(serverURL + "/getwinnerlist").then((res) => {
-      if (res.data[res.data.length - 1]?.thirdfullhouseWinner.length > 0) {
-        // var newDate = res.data[res.data.length - 1].date;
-        // var daten = new Date(
-        //   newDate.getTime() + newDate.getTimezoneOffset() * 60 * 1000
-        // );
-        // var writedate = `${daten.getDate()}-${daten.getMonth()}-${daten.getFullYear()}`;
-        // setDate(writedate);
-        setwinnerlist({
-          firstlineWinner: res.data[res.data.length - 1].firstlineWinner,
-          secondlineWinner: res.data[res.data.length - 1].secondlineWinner,
-          thirdlineWinner: res.data[res.data.length - 1].thirdlineWinner,
-          fourcornerWinner: res.data[res.data.length - 1].fourcornerWinner,
-          tempwinner: res.data[res.data.length - 1].temperatureWinner,
-          q5winner: res.data[res.data.length - 1].quickfiveWinner,
-          fullhouseWinner: res.data[res.data.length - 1].fullhouseWinner,
-          secondfullhouseWinner:
-            res.data[res.data.length - 1].secondfullhouseWinner,
-          thirdfullhouseWinner:
-            res.data[res.data.length - 1].thirdfullhouseWinner,
-        });
-        setlistofwinner(true);
-      }
-    });
-  }, []);
-  function mapped(item, index) {
-    return (
-      <button
-        key={index}
-        type="button"
-        onClick={() => setShowElement({ name: item[0], id: item[1] })}
-      >
-        <span style={{ display: "block" }}>
-          {item[0]} Ticket:{item[1]}
-        </span>
-      </button>
-    );
-  }
 
 
   return (
@@ -264,56 +214,7 @@ export default function Play() {
                               </div>
         }
 
-<center>
-          <div className="board">
-            
-                        {winnerlist && (
-              <div className={styles.winnerboard}>
-                <h1 className="winnertitle">winnerlist</h1>
-                <div className={styles.listElement}>
-                  quick five : {winnerlist?.q5winner.map(mapped)}{" "}
-                </div>
-                {/* <div className='listElement '>temperature  :  {winnerlist?.tempwinner.map(mapped)}  </div> */}
-                <div className={styles.listElement}>
-                  Four corner : {winnerlist?.fourcornerWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  First line : {winnerlist?.firstlineWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  Second line : {winnerlist?.secondlineWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  Third line : {winnerlist?.thirdlineWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  First fullhouse : {winnerlist?.fullhouseWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  Second fullhouse :{" "}
-                  {winnerlist?.secondfullhouseWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  Third fullhouse :{" "}
-                  {winnerlist?.thirdfullhouseWinner.map(mapped)}{" "}
-                </div>
-              </div>
-            )}
-          </div>
-          {showElement?.name&&showElement?.id ? (
-              <div style={{marginBottom:40}}>
-                <h3>
-                  {" "}
-                  {showElement.name} : {showElement.id}{" "}
-                </h3>
-                
-                <TicketViewer
-                  ticketdata={table?.ticket}
-                  color={"hsl(134,49%,70%)"}
-                />
-              </div>
-            ) : null}
-        </center>
+
     </div>
   )
 }

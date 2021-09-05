@@ -1,4 +1,43 @@
 .winner{
-    margin-top:100px;
+    margin-top:200px;
+    height: 100vh;
     text-align: center;
+}
+
+.winnerboard > .listElement{
+    color:black;
+    font-size: 30;
+    font-weight: 800;
+}
+.winnerboard > .listElement>button{
+    color:black;
+    background:conic-gradient(
+        #fd004c,#fe9000,#fff020,#3edf4b,#3363ff,#fd004c
+            );
+    text-shadow:2px 2px 2px rgba(222,255,255, .65);
+    margin:5px 2px;
+    width: 100%;
+    font-weight: 800;
+    padding:5px 0;
+    position: relative;
+    height:100%;
+    width:100%;
+    z-index:3;
+    
+}
+.listElement>button::before{
+    content: "";
+    height:110%;
+    z-index:2;
+    width:110%;
+    position:absolute;
+    transform: rotateY(90deg);
+    top:-5%;
+    left:-5%;
+}
+.listElement{
+    text-transform: uppercase;
+    align-items: center;
+    display:flex;
+    flex-direction: column;
 }

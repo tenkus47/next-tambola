@@ -20,9 +20,11 @@
 }
 .navlinks{
   display: flex;
-  justify-content: space-between;
   gap:20px;
+  list-style: none;
   color:red;
+  justify-content: space-evenly;
+  padding:0;
 }
 .a{
   color:white;
