@@ -28,8 +28,7 @@ const Tickets=(list=[])=>{
   },[])
 
 return (
-    <div className={styles.tickets}>
-
+    <div className={styles.tickets}> 
 <div style={{display:'flex',alignItems:'center',flexDirection:'column',flexWrap:'wrap'}}>
   <div style={{color:'red',display:'flex',alignItems:'center',justifyContent:'center',flexWrap:'wrap'}}>
 
@@ -40,7 +39,9 @@ return (
               <div style={{color:'red',fontSize:15}}> {item?.username} </div>
 
         <div style={{display:'flex',justifyContent:'space-between'}}>
-              <div style={{color:'black'}}>Ticket:{item?.id}</div>
+              <div style={{color:'black'}}>Ticket:{
+              item.id<10? '00'+item?.id:item.id>9&&item.id<100?'0'+item.id:item.id
+              }</div>
               {item.username==='Available' ?(<div>not sold</div>):(<div style={{color:'green'}}> sold</div>)} 
             </div>
             

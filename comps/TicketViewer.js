@@ -6,7 +6,8 @@ const TicketViewer=({ticketdata=[],color='rgba(23,32,43,0.4)',user={}})=>{
         <div className={styles.ticketContainer} style={{backgroundColor:color}}>
            {user?.username&&(
 <div style={{display:'flex',justifyContent:'space-between'}}>
-<div>Ticket ID:{user.id}</div>
+<div>Ticket ID:
+{user.id<10? '00'+user?.id:user.id>9&&user.id<100?'0'+user.id:user.id}</div>
 <div>{user.username}</div>
 </div>
            )
