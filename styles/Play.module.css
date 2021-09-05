@@ -1,0 +1,90 @@
+.playroom{
+    margin-top:100px;
+    text-align: center;
+}
+.anouncedlist{
+    max-width: 400px;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    padding-top: 40px;
+}
+.anouncedlist button{
+    width:40px;
+}
+.random{
+   text-align: center;
+   font-size: 30px;
+   background-color: red;
+   padding:20px;
+   width:50px;
+   height:50px;
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   border-radius: 50%;
+   animation:random 9s infinite;
+   margin:0 auto;
+}
+.winnerboard{
+    max-width: 250px;
+    display: flex;
+    flex-direction: column;
+    background-color:#D7D1C9 ;
+    justify-content: space-around;
+    margin:0 auto;
+    padding:20px;
+    color:black;
+    border-radius: 20px;
+}
+@keyframes random {
+    0%{
+transform: scale(0);
+    }
+    50%{
+        transform: scale(2);
+
+    }
+    100%{
+        transform: scale(0);
+
+    }
+}
+
+.winnerboard > .listElement{
+    color:black;
+    font-size: 30;
+    font-weight: 800;
+}
+.winnerboard > .listElement>button{
+    color:black;
+    background:conic-gradient(
+        #fd004c,#fe9000,#fff020,#3edf4b,#3363ff,#fd004c
+            );
+    text-shadow:2px 2px 2px rgba(222,255,255, .65);
+    margin:5px 2px;
+    width: 100%;
+    font-weight: 800;
+    padding:5px 0;
+    position: relative;
+    height:100%;
+    width:100%;
+    z-index:3;
+    
+}
+.listElement>button::before{
+    content: "";
+    height:110%;
+    z-index:2;
+    width:110%;
+    position:absolute;
+    transform: rotateY(90deg);
+    top:-5%;
+    left:-5%;
+}
+.listElement{
+    text-transform: uppercase;
+    align-items: center;
+    display:flex;
+    flex-direction: column;
+}
