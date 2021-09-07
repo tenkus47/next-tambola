@@ -1,5 +1,5 @@
 import Layout from '../comps/layout'
-import '../styles/index.css'
+import 'tailwindcss/tailwind.css'
 import {store} from '../reducer'
 import { Provider } from 'react-redux'
 function MyApp({ Component, pageProps }) {
