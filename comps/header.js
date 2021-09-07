@@ -5,9 +5,11 @@ import Nav from '../comps/nav'
 const Header=({open})=>{
     return(
         <header className={styles.header}>
+          <div >
+          </div>
             <div className={styles.logo}>
-              <Image src='/img/yaklogo.png' height={100} width={100}/>
-              <h3> YAK ONLINE TAMBOLA </h3>
+              <Image src='/img/yaklogo.png' height={50} width={50}/>
+              <h3 className='font-serif'> YAK ONLINE TAMBOLA </h3>
             </div>
            <center><Timer/>
              

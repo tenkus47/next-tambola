@@ -1,27 +1,31 @@
+
 const Open=()=>{
 return (
-<div style={{textAlign:'center',paddingTop:150,paddingBottom:10}}>
-<h4>IMPORTANT NOTICE</h4>
-<p>"Yak Online Tambola" is the ultimate online "Housie" Gaming for all "Housie" players and it is one of the India’s most popular Skill Based "Housie" Game and is one of it's kind. Experience a unique gaming environment and challenge other players from all over the country. We offer great opportunities for you to utilize your game skills and win exciting rewards in the form of money and keep multiplying them with your skills.</p>
+    <center><div
+className=' text-center max-w-xl bg-green-300 p-2 mb-2'
+>
+<h4 className='text-xl text-red-600 font-bold'>IMPORTANT NOTICE</h4>
 
-<p>Yak Online Tambola is completely legal (except in cases of Assam, Odisha and Telangana) and has been designed by strictly following the set of rules stated by Indian Governing Law and Jurisdiction. At the same time it is legally registered with the appropriate registation authorities. Participation coupons for the game must be procured from the authorised escrow agents for the game.</p>
+<p>Yak Online Tambola is completely legal (except in cases of Assam, Odisha and Telangana) and has been designed by strictly following the set of rules stated by Indian Governing Law and Jurisdiction.  Participation can only be done by agents for this game.</p>
 
-<div>BEWARE OF FAKE WEBSITES IN THE NAME OF Yak Online Tambola.
+<div className='text-l text-blue-600'>BEWARE OF FAKE WEBSITES IN THE NAME OF Yak Online Tambola.
 THE OFFICIAL WEBSITE OF Yak Online Housie is This.</div>
-<h3>!! ANNOUNCEMENT !!</h3>
+<h3 className='text-xl text-purple-600 font-bold'>!! ANNOUNCEMENT !!</h3>
 <p>
 The company will redraw the game in case of server fault or any technical problem on the server side during the draw.
 In case of redraw, no payments will be made on behalf of the faulting draw.
 Cancellation of tickets will not be entertained, If there is a redraw in the game.
 </p>
-DECLARATION
-I declare that I am a citizen of India
-
-I am not a domicile of the states of Assam/Odisha/Telangana
-
+<p className='text-xs bg-red-600 text-white'> 
+DECLARATION:
+I am not a domicile of the states of Assam/Odisha/Telangana,
 I am 18+ years of age as of today
 
+</p>
+
 </div>
+</center>
+
 )
 }
 

@@ -4,7 +4,7 @@ const Footer=()=>{
     return(
         <footer className={styles.footer}>
            Programmed by T.K
-           <Marquee>
+           <Marquee gradient={true}  gradientWidth={30}>
                In case of server failure, we will reschedule the game . refund request would not be appreciated .
                Winner list wont be considered incase of incomplete game.
            </Marquee>

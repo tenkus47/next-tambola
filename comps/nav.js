@@ -2,6 +2,7 @@ import styles from '../styles/Home.module.css'
 import Link from 'next/link'
 import {useState,useEffect} from 'react'
 import {useRouter} from 'next/router'
+import { PlayIcon,CreditCardIcon,ChatIcon,CashIcon } from '@heroicons/react/solid'
 const Nav=()=>{
     const [selected,setSelected]=useState()
     const history=useRouter();
@@ -23,11 +24,20 @@ const Nav=()=>{
     return(
 <div className={styles.nav}>
         <ul className={styles.navlinks}>
-            <li ><Link href='/'><a className={selected==='PLAY'?styles.a:styles.a2} >PLAY</a></Link></li>
-            <li><Link href='/Tickets'><a className={selected==='Tickets'?styles.a:styles.a2} >TICKETS</a></Link></li>
-            <li><Link href='/Winners'><a className={selected==='Winners'?styles.a:styles.a2}>WINNERS</a></Link></li>
-            <li><Link href='/About'><a className={selected==='Discuss'?styles.a:styles.a2}>DISCUSS</a></Link></li>
-
+            <li>
+                <Link href='/'>
+                    <a className='text-black' style={selected==='PLAY'?{fontWeight:'bold'}:null} >
+            <PlayIcon className="h-5 w-5 text-blue-500 inline" />
+                PLAY</a></Link></li>
+            <li><Link href='/Tickets'><a className='text-black' style={selected==='Tickets'?{fontWeight:'bold'}:null} >
+                <CreditCardIcon className="h-5 w-5 text-blue-500 inline" />
+                TICKETS</a></Link></li>
+            <li><Link href='/Winners'><a className='text-black' style={selected==='Winners'?{fontWeight:'bold'}:null} >
+                <CashIcon className="h-5 w-5 text-blue-500 inline" />
+                WINNERS</a></Link></li>
+            <li><Link href='/About'><a className='text-black' style={selected==='Discuss'?{fontWeight:'bold'}:null} >
+                <ChatIcon className="h-5 w-5 text-blue-500 inline" />
+                DISCUSS</a></Link></li>
      </ul>
     </div>
     )

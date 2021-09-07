@@ -8,15 +8,15 @@ import TicketViewer from '../comps/TicketViewer';
 const Tickets=(list=[])=>{
     const [currentPage,setCurrentPage]=useState(1)
     const [postPerPage]=useState(12)
-     
     const [lists,setlist]=useState([]);
 
     const paginate=(number)=>{
         setCurrentPage(number)
     }
     const getAllTicket=async()=>{
-        const res=await  axios.get(serverURL+'/getlist')
-        setlist(res.data.splice(0,50))
+            const res=await  axios.get(serverURL+'/getlist')
+            setlist(res.data)
+        
        } 
 
        const indexOfLastPost=currentPage*postPerPage;
@@ -25,10 +25,11 @@ const Tickets=(list=[])=>{
     
  useEffect(()=>{
     getAllTicket();
+
   },[])
 
 return (
-    <div className={styles.tickets}> 
+    <div className='pb-20'> 
 <div style={{display:'flex',alignItems:'center',flexDirection:'column',flexWrap:'wrap'}}>
   <div style={{color:'red',display:'flex',alignItems:'center',justifyContent:'center',flexWrap:'wrap'}}>
 

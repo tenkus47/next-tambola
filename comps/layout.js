@@ -15,12 +15,15 @@ const [open,setopen]=useState(true);
             <meta name="theme-color" content="#ddfd3a"></meta>
         </Head>
         <Header open={open}/>
-        {open && (<>
+        <div className='relative h-32'></div>
+        {/* this is for spacing under header */}
+        {open && (<div >
   <OpeningMessage/>
   <center><button
-  style={{marginBottom:30,borderRadius:10,background:'yellow',color:'red'}}
+  className='px-3 mt-3 mb-40  py-2 animate-pulse rounded cursor-pointer bg-yellow-200 text-sm text-blue-700 rounded-sm'
+  
   onClick={()=>setopen(false)} type='button'>Enter</button></center>
-        </>)}
+        </div>)}
         {!open && children
         }
          

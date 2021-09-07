@@ -8,9 +8,16 @@
     margin-right: auto;
     margin-left: auto;
     padding-top: 40px;
+    background-size: cover;
+    background-position: center;
+    padding:10px 2px;
+    margin:0 auto;
+    text-align: center;
+    background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80');
 }
 .anouncedlist button{
-    width:40px;
+    width:30px;
+    height: 30px;
 }
 .random{
    text-align: center;
@@ -23,7 +30,6 @@
    justify-content: center;
    align-items: center;
    border-radius: 50%;
-   animation:random 9s infinite;
    margin:0 auto;
 }
 .winnerboard{
@@ -36,19 +42,6 @@
     padding:20px;
     color:black;
     border-radius: 20px;
-}
-@keyframes random {
-    0%{
-transform: scale(0);
-    }
-    50%{
-        transform: scale(2);
-
-    }
-    100%{
-        transform: scale(0);
-
-    }
 }
 
 .winnerboard > .listElement{

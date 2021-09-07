@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useState} from 'react'
+import {useState,useEffect} from 'react'
 import { serverURL } from '../servers';
 import TicketViewer from './TicketViewer';
 import styles from '../styles/ticketEnter.module.css'
@@ -26,21 +26,39 @@ const handleEnter=()=>{
 setLoading(true)
 var ticketNumber=parseInt(selected);
 var data= fetcher(ticketNumber);
-data.then(res=>{setUser(res)
+data.then(res=>{
+ res.sort((a,b)=>a.id-b.id)   
+setUser(res)
 setLoading(false);
+localStorage.setItem('ticketnumber',selected);
+setSelected('')
 });
 }
 
+useEffect(()=>{
+var ticketnumber=parseInt(localStorage.getItem('ticketnumber'))
+if(ticketnumber){
+    setLoading(true)
+    var data= fetcher(ticketnumber);
+    data.then(res=>{
+        res.sort((a,b)=>a.id-b.id)   
+        setUser(res)
+        setLoading(false);
+        setSelected('')
+    });
+}
+},[])
+
 return (
     <>
-<div style={{background:'darkblue',padding:'20px 0',margin:'10px 0'}}>
-<h5 style={{color:'white'}}>Ticket number :{selected}</h5>
+<div style={{background:'darkblue',padding:'20px 0',margin:'10px 0'}} className='flex-row justify-center items-center text-center'>
+<h5 className='text-white uppercase'>Ticket number : {selected}</h5>
 <div style={{display:'block'}}>
 
 {numbers.map((item)=>{
    return (
        <button type='button' key={item}
-       style={{background:'yellow',margin:'0 3px'}}
+       className='m-1 text-black bg-yellow-200 px-2 text-xs mb-3 '
        onClick={()=>handleClick(item)}>{item}
            </button>
    )
@@ -48,16 +66,16 @@ return (
 </div>
 
 <button onClick={handleEnter}
-       style={{background:'lightgreen',margin:'5px 3px' }}
+      className='px-2 mx-2 bg-green-300' 
        >Enter</button>
 <button onClick={()=>setSelected('')}
-       style={{background:'red',margin:'0 3px'}}
+className='px-2 mx-2 bg-red-300'
        >Clear</button>
 
 </div>
 {
     !loading ? (
-<div style={{display:'flex',justifyContent:'center',flexWrap:'wrap',gap:10}}>
+<div style={{display:'flex',justifyContent:'center',flexWrap:'wrap',gap:10,marginBottom:90}}>
     {users.map(item=>(
         <div style={{display:'block'}} key={item.id}>
 <TicketViewer ticketdata={item?.ticket} color={item?.color} user={item}/>
@@ -65,7 +83,7 @@ return (
     ))}
 </div>
     ):(<center>
-        <div class={styles.loader}></div>
+        <div className={styles.loader}></div>
         </center>)
 }
 

@@ -55,7 +55,7 @@ const Winners=()=>{
     return (
         <div className={styles.winner}>
             <center>
-          <div className="board">
+          <div className="board mt-7">
             
                         {winnerlist && (
               <div className={styles.winnerboard}>

@@ -9,17 +9,16 @@ import axios from 'axios'
 import {serverURL} from '../servers'
 import { Howl } from "howler";
 import { useEffect,useState } from 'react';
-import Timer from '../comps/Timer';
 import TicketViewer from '../comps/TicketViewer'
 import TicketEnter from '../comps/ticketEnter';
 
 export default function Play() {
   const { random, list } = useSelector((state) => state.NumberGenerate);
-  const { speak } = useSpeechSynthesis();
-  var showRand = ""; 
+  const { speak } = useSpeechSynthesis(); 
    const [showcel,setshowcel]=useState();
  const [showornot,setShowornot]=useState('show');
    var [anouncedN,setanouncedN] = useState();
+   const [showRandom ,setShowRandom]=useState(false);
    const dispatch = useDispatch();
 
   useEffect(() => {
@@ -129,6 +128,9 @@ export default function Play() {
     
   }, []);
   useEffect(() => {
+    if(random){
+      setShowRandom(true);
+    }
     var single = "";
     if (random > 0 && random < 10) {
       single = "single number ";
@@ -142,10 +144,10 @@ export default function Play() {
       });
     }, 1500);
 
-    showRand = random;
-    setInterval(() => {
-      showRand = "";
-    }, 3000);
+
+    setTimeout(()=>{
+     setShowRandom(false);
+    },2000)
   }, [random]);
   
   useEffect(() => {
@@ -166,17 +168,9 @@ export default function Play() {
 
 
   return (
-    <div className={styles.playroom}>
-
-{!random&& <div style={{paddingTop:30,fontFamily:'sans-serif',fontWeight:900}}>
-  The Game is Starting soon,We Hope you Enjoy the game!
-  <br/>
-  </div>}
-
-  <TicketEnter/>
-
-      {random && <div className={styles.anouncedlist}>
-         <h3>GAME BOARD</h3>
+    <div className=''>
+     <div className={styles.anouncedlist}>
+         <h3 className='text-xl font-bold font-mono'>GAME BOARD</h3>
             {arrayInitial.map((item, index) => (
               <button
                 style={
@@ -207,14 +201,15 @@ export default function Play() {
                 {item}
               </button>
             ))}
-          </div>}
-        { random &&
+          </div>
+        { showRandom &&
             <div className={styles.random}>
                          {random}
                               </div>
         }
 
 
+<TicketEnter/>
     </div>
   )
 }
