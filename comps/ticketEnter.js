@@ -32,11 +32,8 @@ setUser(res)
 setLoading(false);
 localStorage.setItem('ticketnumber',selected);
 setSelected('')
-idref.current.scrollIntoView({
-    behavior: "smooth",
-    block:"end",
-    inline:"end"
-  });
+idref.current.scrollIntoView({behavior:'smooth',block: "start", inline: "nearest"});
+
 });
 }
 
@@ -50,12 +47,9 @@ if(ticketnumber){
         setUser(res)
         setLoading(false);
         setSelected('')
+        
+    idref.current.scrollIntoView({behavior:'smooth',block: "start", inline: "nearest"});
     });
-    idref.current.scrollIntoView({
-        behavior: "smooth",
-        block:"end",
-    inline:"end"
-      });
 }
 },[])
 
