@@ -1,4 +1,5 @@
 import styles from '../styles/Play.module.css'
+import Timer from '../comps/Timer'
 
 import {arrayInitial} from '../comps/Variables'
 import { useSelector, useDispatch } from "react-redux";
@@ -170,6 +171,7 @@ export default function Play() {
   return (
     <div className=''>
      <div className={styles.anouncedlist}>
+     <Timer/> 
          <h3 className='text-xl font-bold font-mono'>GAME BOARD</h3>
             {arrayInitial.map((item, index) => (
               <button
