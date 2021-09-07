@@ -1,5 +1,5 @@
 import axios from 'axios';
-import {useState,useEffect} from 'react'
+import {useState,useEffect,useRef} from 'react'
 import { serverURL } from '../servers';
 import TicketViewer from './TicketViewer';
 import styles from '../styles/ticketEnter.module.css'
@@ -8,7 +8,7 @@ var [selected,setSelected]=useState('');
 var numbers=['1','2','3','4','5','6','7','8','9','0']
 var [users,setUser]=useState([]);
 var [loading,setLoading]=useState(false)
-
+const idref=useRef(null);
 const handleClick=(item)=>{
         setSelected(prev=>prev+item)
    
@@ -46,6 +46,11 @@ if(ticketnumber){
         setLoading(false);
         setSelected('')
     });
+    idref.current.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "start"
+      });
 }
 },[])
 
@@ -75,7 +80,7 @@ className='px-2 mx-2 bg-red-300'
 </div>
 {
     !loading ? (
-<div style={{display:'flex',justifyContent:'center',flexWrap:'wrap',gap:10,marginBottom:90}}>
+<div style={{display:'flex',justifyContent:'center',flexWrap:'wrap',gap:10,marginBottom:90}} ref={idref}>
     {users.map(item=>(
         <div style={{display:'block'}} key={item.id}>
 <TicketViewer ticketdata={item?.ticket} color={item?.color} user={item}/>

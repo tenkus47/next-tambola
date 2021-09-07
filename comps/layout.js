@@ -15,7 +15,7 @@ const [open,setopen]=useState(true);
             <meta name="theme-color" content="#ddfd3a"></meta>
         </Head>
         <Header open={open}/>
-        <div className='relative h-32'></div>
+        <div className='relative h-24'></div>
         {/* this is for spacing under header */}
         {open && (<div >
   <OpeningMessage/>
