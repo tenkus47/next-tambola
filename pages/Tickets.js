@@ -39,19 +39,21 @@ return (
   text='Loading your content...'
   >
     <div className='pb-20'> 
-      <div style={{display:'flex',alignItems:'center',flexDirection:'column',flexWrap:'wrap'}}>
+      <div style={{display:'flex',alignItems:'center',flexDirection:'column',flexWrap:'wrap',marginBottom:20}}>
   <div style={{color:'red',display:'flex',alignItems:'center',justifyContent:'center',flexWrap:'wrap'}}>
 
   {currentPosts.map((item,index)=>
    
    (
-       <div key={index} style={{margin:20}}>
-              <div style={{color:'red',fontSize:15}}> {item?.username} </div>
+       <div key={index} style={{marginTop:10}}>
 
-        <div style={{display:'flex',justifyContent:'space-between'}}>
+        <div
+         style={{backgroundColor:'#eee',display:'flex',justifyContent:'space-between' ,borderTop:'2px solid black',borderLeft:'2px solid black',borderRight:'2px solid black'}}>
               <div style={{color:'black'}}>Ticket:{
               item.id<10? '00'+item?.id:item.id>9&&item.id<100?'0'+item.id:item.id
-              }</div>
+            }</div>
+              <div style={{color:'darkblue',fontSize:15}}> {item?.username} </div>
+
               {item.username==='Available' ?(<div>not sold</div>):(<div style={{color:'green'}}> sold</div>)} 
             </div>
             
@@ -62,8 +64,9 @@ return (
   </div>
   </div>
   <Pagination postsPerPage={postPerPage} TotalPosts={lists.length} paginate={paginate} currentpage={currentPage}/>
+  <center><h5 className='text-black uppercase animate-bounce text-xs ' >swipe for more pages</h5></center>
     </div>
-  
+
     </LoadingOverlay>
 )
 
