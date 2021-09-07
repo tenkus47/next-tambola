@@ -1,7 +1,7 @@
 import axios from 'axios'
 import {useState,useEffect} from 'react'
 import { serverURL } from '../servers'
-
+import { ClockIcon } from '@heroicons/react/solid'
 function Timer() {
 
     const [timerDays,setTimerDays]=useState()
@@ -44,16 +44,20 @@ if(timerDays===0&&timerHours===0&&timerMinutes===0&&timerSeconds===0){
 }
     return (
       
-        <div  style={{display:'flex',justifyContent:'space-between',alignItems:'center',color:'white',borderRadius:10,
-        fontSize:'10p',margin:10,backgroundColor:'#051817',boxShadow:'0 0 5px 6px black'}}>
+        <div  style={{display:'flex',justifyContent:'space-between',alignItems:'center',color:'white',borderRadius:10,margin:10}}>
            <div  style={{display:'flex',color:'#06f1f6',borderRadius:10,
-        fontSize:'10px',textShadow:'1px 1px 7px',margin:10,backgroundColor:'#051817',width:'max-content',boxShadow:'0 0 2px 1px black'}}
+        fontSize:'10px',textShadow:'1px 1px 7px',margin:10,backgroundColor:'#051817',width:'max-content',padding:3}}
            > <span>{timerDays} Days </span>-
             <span>{timerHours} Hours </span>-
             <span>{timerMinutes} Minutes </span>-
             <span>{timerSeconds} Seconds </span></div>
-            <div className='text-xs'>
-          {timeactual?.getDate()}:{timeactual?.getMonth()}:{timeactual?.getFullYear()}
+            <div className='text-xs bg-black p-2 flex'>
+           <div>
+           <ClockIcon className='h-5 w-5 mr-3'/>
+             </div>   
+<div>
+{timeactual?.getDate()}:{timeactual?.getMonth()}:{timeactual?.getFullYear()}
+  </div>  
             </div>
         </div>
     )
