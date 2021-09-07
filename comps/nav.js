@@ -24,19 +24,19 @@ const Nav=()=>{
     return(
 <div className={styles.nav}>
         <ul className={styles.navlinks}>
-            <li>
+            <li className='group'>
                 <Link href='/'>
                     <a className='text-black' style={selected==='PLAY'?{fontWeight:'bold'}:null} >
-            <PlayIcon className="h-5 w-5 text-blue-500 inline" />
+            <PlayIcon className="h-5 w-5 text-blue-500 inline group-hover:animate-spin" />
                 PLAY</a></Link></li>
-            <li><Link href='/Tickets'><a className='text-black' style={selected==='Tickets'?{fontWeight:'bold'}:null} >
-                <CreditCardIcon className="h-5 w-5 text-blue-500 inline" />
+            <li className='group'><Link href='/Tickets'><a className='text-black' style={selected==='Tickets'?{fontWeight:'bold'}:null} >
+                <CreditCardIcon className="h-5 w-5 text-blue-500 inline group-hover:animate-bounce" />
                 TICKETS</a></Link></li>
-            <li><Link href='/Winners'><a className='text-black' style={selected==='Winners'?{fontWeight:'bold'}:null} >
-                <CashIcon className="h-5 w-5 text-blue-500 inline" />
+            <li className='group'><Link href='/Winners'><a className='text-black' style={selected==='Winners'?{fontWeight:'bold'}:null} >
+                <CashIcon className="h-5 w-5 text-blue-500 inline group-hover:animate-bounce" />
                 WINNERS</a></Link></li>
-            <li><Link href='/About'><a className='text-black' style={selected==='Discuss'?{fontWeight:'bold'}:null} >
-                <ChatIcon className="h-5 w-5 text-blue-500 inline" />
+            <li className='group'><Link href='/About'><a className='text-black' style={selected==='Discuss'?{fontWeight:'bold'}:null} >
+                <ChatIcon className="h-5 w-5 text-blue-500 inline group-hover:animate-bounce" />
                 DISCUSS</a></Link></li>
      </ul>
     </div>

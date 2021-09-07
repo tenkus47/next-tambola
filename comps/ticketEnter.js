@@ -32,7 +32,7 @@ setUser(res)
 setLoading(false);
 localStorage.setItem('ticketnumber',selected);
 setSelected('')
-idref.current.scrollIntoView({behavior:'smooth',block: "start", inline: "nearest"});
+idref.current?.scrollIntoView({behavior:'smooth',block: "start", inline: "nearest"});
 
 });
 }
@@ -48,7 +48,7 @@ if(ticketnumber){
         setLoading(false);
         setSelected('')
         
-    idref.current.scrollIntoView({behavior:'smooth',block: "start", inline: "nearest"});
+    idref.current?.scrollIntoView({behavior:'smooth',block: "start", inline: "nearest"});
     });
 }
 },[])

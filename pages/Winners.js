@@ -2,11 +2,15 @@ import styles from '../styles/Winner.module.css'
 import { useState,useEffect } from 'react';
 import axios from 'axios'
 import { serverURL } from '../servers';
+import LoadingOverlay from 'react-loading-overlay';
+
 import TicketViewer from '../comps/TicketViewer';
 const Winners=()=>{
     const [table, setTable] = useState();
 
     const [listofwinner, setlistofwinner] = useState(false);
+    const [loading,setloading]=useState(false)
+
     const [showElement, setShowElement] = useState({});
     useEffect(() => {
         var id = showElement.id ? parseInt(showElement.id) : 0;
@@ -17,6 +21,7 @@ const Winners=()=>{
         fetcher();
       }, [showElement]);
     useEffect(() => {
+      setloading(true)
         axios.get(serverURL + "/getwinnerlist").then((res) => {
           if (res.data[res.data.length - 1]?.thirdfullhouseWinner.length > 0) {
          
@@ -34,6 +39,7 @@ const Winners=()=>{
                 res.data[res.data.length - 1].thirdfullhouseWinner,
             });
             setlistofwinner(true);
+            setloading(false)
           }
         });
       }, []);
@@ -53,6 +59,12 @@ const Winners=()=>{
     const [winnerlist, setwinnerlist] = useState();
 
     return (
+<LoadingOverlay
+  active={loading}
+  spinner
+  text='Loading Winnerlist...'
+  >
+
         <div className={styles.winner}>
             <center>
           <div className="board mt-7">
@@ -105,6 +117,8 @@ const Winners=()=>{
           
         </center>
         </div>
+    
+        </LoadingOverlay>
     )
     }
     export default Winners;
