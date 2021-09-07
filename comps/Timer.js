@@ -45,7 +45,7 @@ if(timerDays===0&&timerHours===0&&timerMinutes===0&&timerSeconds===0){
     return (
       
         <div  style={{display:'flex',justifyContent:'space-between',alignItems:'center',color:'white',borderRadius:10,
-        fontSize:'10p',margin:10,backgroundColor:'#051817',width:'90%',boxShadow:'0 0 5px 6px black'}}>
+        fontSize:'10p',margin:10,backgroundColor:'#051817',boxShadow:'0 0 5px 6px black'}}>
            <div  style={{display:'flex',color:'#06f1f6',borderRadius:10,
         fontSize:'10px',textShadow:'1px 1px 7px',margin:10,backgroundColor:'#051817',width:'max-content',boxShadow:'0 0 2px 1px black'}}
            > <span>{timerDays} Days </span>-

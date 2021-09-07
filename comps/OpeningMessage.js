@@ -6,9 +6,9 @@ className=' text-center max-w-xl bg-green-300 p-2 mb-2'
 >
 <h4 className='text-xl text-red-600 font-bold'>IMPORTANT NOTICE</h4>
 
-<p className='text-sm'>Yak Online Tambola is completely legal (except in cases of Assam, Odisha and Telangana) and has been designed by strictly following the set of rules stated by Indian Governing Law and Jurisdiction.  Participation can only be done by agents for this game.</p>
+<p className='text-xs'>Yak Online Tambola is completely legal (except in cases of Assam, Odisha and Telangana) and has been designed by strictly following the set of rules stated by Indian Governing Law and Jurisdiction.  Participation can only be done by agents for this game.</p>
 
-<div className='text-l text-blue-600'>BEWARE OF FAKE WEBSITES IN THE NAME OF Yak Online Tambola.
+<div className='text-sm text-blue-600'>BEWARE OF FAKE WEBSITES IN THE NAME OF Yak Online Tambola.
 THE OFFICIAL WEBSITE OF Yak Online Housie is This.</div>
 <h3 className='text-xl text-purple-600 font-bold'>!! ANNOUNCEMENT !!</h3>
 <p className='text-xs'>
