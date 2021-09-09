@@ -45,14 +45,14 @@ return (
   {currentPosts.map((item,index)=>
    
    (
-       <div key={index} style={{marginTop:10}}>
+       <div key={index} style={{marginTop:10,marginLeft:5,marginRight:5}}>
 
         <div
          style={{backgroundColor:'#eee',display:'flex',justifyContent:'space-between' ,borderTop:'2px solid black',borderLeft:'2px solid black',borderRight:'2px solid black'}}>
               <div style={{color:'black'}}>Ticket:{
               item.id<10? '00'+item?.id:item.id>9&&item.id<100?'0'+item.id:item.id
             }</div>
-              <div style={{color:'darkblue',fontSize:15}}> {item?.username} </div>
+              <div className={item?.username==='Available'?'font-bold text-red-600':'text-green-700'} > {item?.username} </div>
 
               {item.username==='Available' ?(<div>not sold</div>):(<div style={{color:'green'}}> sold</div>)} 
             </div>

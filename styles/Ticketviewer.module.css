@@ -15,5 +15,7 @@
     min-width: 10px;
     width:20%;
     border:1px solid black;
-    padding:8px;
+    padding:1px;
+    font-size: 15px;
+    text-align: center;
 }
