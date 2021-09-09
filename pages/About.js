@@ -1,13 +1,13 @@
 import styles from "../styles/About.module.css";
 import GoogleLogin,{GoogleLogout} from 'react-google-login';
 import {useState,useEffect,useRef} from 'react'
-import {socket2 } from "../socket";
+import { socket2 } from "../socket";
 
 import axios from "axios";
 import { serverURL2 } from "../servers";
 const Discuss = () => {
 
-    
+
 useEffect(() => {
     socket2.connect();
     socket2.on("connect", () => {
@@ -15,23 +15,41 @@ useEffect(() => {
     socket2.on("getMessage",data=>
              setMessages(data)
     )
+    socket2.on("usertyping",(data)=>{
+      settypelist(prev=>{ if(!prev.includes(data)) return [...prev,data]
+                           return [...prev]                     
+      })
+    })
+    socket2.on("usernottyping",data=>{
+      var typer=typelist;
+      const index = typer.indexOf(data);
+      if (index > -1) {
+        typer.splice(index, 1);
+      }
+     settypelist(typer);
+    })
+
+
+   
+
 }, [])
  const [message,setMessage]=useState("")
  const [messages,setMessages]=useState([])
  const [loggedIn,setLoggedIn]=useState(false)
  const [user,setUser]=useState({});
  const chatref=useRef();
-
+ const [typelist,settypelist]=useState([]);
+const inputref=useRef();
 useEffect(()=>{
  const fetcher=async()=>{
    var res=  await axios.get(serverURL2+'/chatdata')
    setMessages(res.data) 
    setTimeout(()=>{
-       
      if(chatref.current){
     chatref.current.scrollTop=chatref.current?.scrollHeight
      }
    },500)         
+
  }
  fetcher();
 },[loggedIn])
@@ -39,8 +57,15 @@ useEffect(()=>{
  useEffect(() => { 
     if(chatref.current){
         chatref.current.scrollTop=chatref.current?.scrollHeight
-
      }
+       
+  inputref.current?.addEventListener('focus', (event) => {
+    socket2.emit("typing",user?.username);
+  });
+
+  inputref.current?.addEventListener('blur', (event) => {
+    socket2.emit("nottyping",user?.username);
+  });
     }, [messages])
  const handlePost=(e)=>{
     e.preventDefault();
@@ -61,7 +86,7 @@ useEffect(()=>{
  if(loggedIn){
     return (
     <>
-<div className='profile flex ml-3 items-center mb-2 justify-between mr-3 mt-4'  >   
+<div className='profile flex ml-3 items-center mb-2 justify-around mr-3 mt-4'  >   
 <img src={user.photo} alt='photo' className='rounded-3xl mr-3' height='25px' width='35px'/>
   <div className='font-bold'>{user.username}</div>
  <GoogleLogout
@@ -74,12 +99,12 @@ useEffect(()=>{
     </GoogleLogout>
 </div>
 
-      <div className=' text-white border-2 ' style={{fontSize:10,width:'90%',margin:'0 auto',maxHeight:'350px',height:'450px',overflowY:'hidden'}} >
+      <div className=' text-white border-2 max-h-64 lg:max-h-96' style={{fontSize:10,width:'90%',margin:'0 auto',overflowY:'hidden'}} >
                <div className='font-bold bg-gray-600'>Game Discussion <span className='text-red-200 text-xs'>(please dont misuse the platform)</span>
                    </div>
                    <div
                    ref={chatref}
-                    className='bg-white text-black' style={{maxHeight:'100%',width:'100%',height:'100%',overflowY:'scroll',paddingBottom:40}}>
+                    className='bg-white text-black h-64' style={{width:'100%',overflowY:'scroll',paddingBottom:30}}>
           {
               messages.map((msg,index)=>(
                   <div key={index} className='flex items-center m-2 rounded px-3 py-1' style={user.username!==msg.username?{background:'lightgray',flexDirection:'row-reverse',textAlign:'right'}:{background:'lightgreen'}}>
@@ -92,13 +117,14 @@ useEffect(()=>{
               )
               )
           }
+          {typelist.length>0?<div>{typelist.map((t,i)=><span key={i}>{t}</span>)} typing...</div>:null}
                    </div>
-              
                    <div>
-                </div>
+                </div>    
           </div>
-          <form onSubmit={handlePost} style={{maxWidth:'80%',margin:'0 auto' ,marginTop:10}}>
-                        <input type='text' value={message} onChange={e=>setMessage(e.target.value)} className='rounded border-4 text-black ' style={{width:'80%'}}/>
+          <form onSubmit={handlePost} className='flex justify-center mx-10'>
+                        <input type='text' ref={inputref} value={message} onChange={e=>setMessage(e.target.value)} 
+                        className='rounded border-4 text-black w-full' />
                         <button className='bg-green-600 rounded text-white'  type='submit' style={{width:'20%'}}>Send</button>
                        </form>
     </>
@@ -109,6 +135,7 @@ useEffect(()=>{
             return(
 
                 <div className='rounded  flex justify-center mt-20'>
+  
                   <GoogleLogin
     clientId="233797134413-j37sqcrsutqp63hjnd03f0pp6k6gj4b9.apps.googleusercontent.com"
     buttonText="Login with Google"
@@ -117,7 +144,8 @@ useEffect(()=>{
     cookiePolicy={'single_host_origin'}
     isSignedIn={true}
   />
-                </div>
+  
+              </div>
             )
         }
 };
