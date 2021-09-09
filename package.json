@@ -20,6 +20,7 @@
     "cssnano": "^5.0.8",
     "date-fns": "^2.23.0",
     "firebase": "^9.0.1",
+    "fs": "0.0.1-security",
     "howler": "^2.2.3",
     "install": "^0.13.0",
     "moment": "^2.29.1",

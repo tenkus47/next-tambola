@@ -2,7 +2,6 @@ import styles from "../styles/About.module.css";
 import GoogleLogin,{GoogleLogout} from 'react-google-login';
 import {useState,useEffect,useRef} from 'react'
 import { socket2 } from "../socket";
-
 import axios from "axios";
 import { serverURL2 } from "../servers";
 const Discuss = () => {
@@ -61,11 +60,18 @@ useEffect(()=>{
        
   inputref.current?.addEventListener('focus', (event) => {
     socket2.emit("typing",user?.username);
+
+    inputref.current?.scrollIntoView(true);
+
   });
 
   inputref.current?.addEventListener('blur', (event) => {
     socket2.emit("nottyping",user?.username);
   });
+
+  return ()=>{inputref.current?.removeEventListener('focus',()=>console.log('removed'));
+  inputref.current?.removeEventListener('blur',()=>console.log('removed'));
+}
     }, [messages])
  const handlePost=(e)=>{
     e.preventDefault();
