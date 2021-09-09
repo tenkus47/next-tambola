@@ -105,7 +105,7 @@ useEffect(()=>{
     </GoogleLogout>
 </div>
 
-      <div className=' text-white border-2 max-h-64 lg:max-h-96' style={{fontSize:10,width:'90%',margin:'0 auto',overflowY:'hidden'}} >
+      <div className=' text-white border-2 max-h-64 lg:max-h-96 lg:max-w-xl' style={{fontSize:10,width:'90%',margin:'0 auto',overflowY:'hidden'}} >
                <div className='font-bold bg-gray-600'>Game Discussion <span className='text-red-200 text-xs'>(please dont misuse the platform)</span>
                    </div>
                    <div
@@ -113,7 +113,7 @@ useEffect(()=>{
                     className='bg-white text-black h-64' style={{width:'100%',overflowY:'scroll',paddingBottom:30}}>
           {
               messages.map((msg,index)=>(
-                  <div key={index} className='flex items-center m-2 rounded px-3 py-1' style={user.username!==msg.username?{background:'lightgray',flexDirection:'row-reverse',textAlign:'right'}:{background:'lightgreen'}}>
+                  <div key={index} className={user.username===msg.username?(styles.self):(styles.other)}>
                       <div><img className='rounded-3xl' src={msg.photoUrl} height='25px' width='25px'/></div>
                       <div className='flex-row justify-center px-3'>
                           <div className='font-bold'>{msg.username}</div>
@@ -128,7 +128,7 @@ useEffect(()=>{
                    <div>
                 </div>    
           </div>
-          <form onSubmit={handlePost} className='flex justify-center mx-10 mb-20'>
+          <form onSubmit={handlePost} className='flex justify-center mx-10 mb-20 lg:max-w-xl items-center ' style={{margin:'0 auto'}}>
                         <input type='text' ref={inputref} value={message} onChange={e=>setMessage(e.target.value)} 
                         className='rounded border-4 text-black w-full' />
                         <button className='bg-green-600 rounded text-white'  type='submit' style={{width:'20%'}}>Send</button>

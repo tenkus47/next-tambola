@@ -2,3 +2,31 @@
     margin-top:100px;
     text-align: center;
 }
+.other{
+    display: flex;
+    align-items: center;
+    margin: 2px;
+    padding:1px 3px;
+    background-color: lightgray;
+    flex-direction: row-reverse;
+    text-align: right;
+    -webkit-border-radius: 12px 12px 0 12px;
+    -moz-border-radius: 12px 12px 0  12px;
+    border-radius: 12px 12px 0 12px;
+    margin-left: 60px;
+    margin-right:10px;
+    margin-bottom: 3px;
+
+}
+.self{
+    display: flex;
+    align-items: center;
+    margin-right: 60px;
+    margin-left:10px;
+    margin-bottom: 3px;
+    padding:1px 3px;
+  background-color: lightgreen;
+  -webkit-border-radius: 12px 12px 12px 0;
+    -moz-border-radius: 12px 12px 12px  0;
+    border-radius: 12px 12px 12px 0;
+}

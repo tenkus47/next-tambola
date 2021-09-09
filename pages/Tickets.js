@@ -3,18 +3,16 @@ import {useEffect,useState} from 'react'
 import {serverURL} from '../servers'
 import axios from 'axios';
 import TicketViewer from '../comps/TicketViewer';
-    import {Pagination} from '../comps/Pagination';
     import LoadingOverlay from 'react-loading-overlay';
+    import ReactPaginate from 'react-paginate';
 
 const Tickets=(list=[])=>{
-    const [currentPage,setCurrentPage]=useState(1)
     const [postPerPage]=useState(12)
     const [loading,setloading]=useState(false)
     const [lists,setlist]=useState([]);
-
-    const paginate=(number)=>{
-        setCurrentPage(number)
-    }
+    const [pageNumber,setPageNumber]=useState(0)
+    const pagesVisited=pageNumber*postPerPage
+    const pagecount=Math.ceil(lists.length/postPerPage)
     const getAllTicket=async()=>{
       setloading(true)
             const res=await  axios.get(serverURL+'/getlist')
@@ -22,10 +20,10 @@ const Tickets=(list=[])=>{
         
        } 
 
-       const indexOfLastPost=currentPage*postPerPage;
-       const indexOfFirstPost=indexOfLastPost-postPerPage;
-       const currentPosts=lists.slice(indexOfFirstPost,indexOfLastPost).sort((a,b)=>a.id-b.id);
-    
+       const currentPosts=lists.slice(pagesVisited,pagesVisited+postPerPage).sort((a,b)=>a.id-b.id);
+    const changePage=({selected})=>{
+      setPageNumber(selected);
+    }
  useEffect(()=>{
     getAllTicket();
     if(lists.length>0){
@@ -63,8 +61,20 @@ return (
    } 
   </div>
   </div>
-  <Pagination postsPerPage={postPerPage} TotalPosts={lists.length} paginate={paginate} currentpage={currentPage}/>
-  <center><h5 className='text-black uppercase animate-bounce text-xs ' >swipe for more pages</h5></center>
+  <ReactPaginate
+  previousLabel={"previous"}
+  nextLabel={"next"}
+  pageCount={pagecount}
+  onPageChange={changePage}
+  containerClassName={styles.paginationBtns}
+  previousLinkClassName={styles.previousBtns}
+  nextClassName={styles.nextBtns}
+  disabledClassName={styles.paginationDisablesBtn}
+  activeClassName={'animate-bounce'}
+  breakLabel={'...'}
+  pageRangeDisplayed={3}
+  marginPagesDisplayed={2}
+  />
     </div>
 
     </LoadingOverlay>

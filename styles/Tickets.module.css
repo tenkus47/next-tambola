@@ -1,0 +1,23 @@
+.paginationBtns{
+  max-width: 80vw;
+  width:80vw;
+  height:40px;
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin:0 auto
+}
+
+.paginationBtns a{
+  padding:0 4px;
+  font-size: small;
+  margin-left:3px;
+  margin-right:3px;
+  border-radius: 4px;
+  border:1px solid #2b2eff;
+}
+.paginationBtns a:hover{
+  color:white;
+  background-color: #2b2eff;
+}
