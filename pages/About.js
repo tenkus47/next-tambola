@@ -123,12 +123,12 @@ useEffect(()=>{
               )
               )
           }
-          {typelist.length>0?<div>{typelist.map((t,i)=><span key={i}>{t}</span>)} typing...</div>:null}
+          {typelist.length>0?<div className='px-3'>{typelist.map((t,i)=><span key={i}>{t}</span>)} typing...</div>:null}
                    </div>
                    <div>
                 </div>    
           </div>
-          <form onSubmit={handlePost} className='flex justify-center mx-10'>
+          <form onSubmit={handlePost} className='flex justify-center mx-10 mb-20'>
                         <input type='text' ref={inputref} value={message} onChange={e=>setMessage(e.target.value)} 
                         className='rounded border-4 text-black w-full' />
                         <button className='bg-green-600 rounded text-white'  type='submit' style={{width:'20%'}}>Send</button>
