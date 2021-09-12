@@ -35,8 +35,14 @@ const [timeactual,setActualdate]=useState()
   
     }
   useEffect(()=>{
-    startTimer();
-      return ()=>clearInterval(interval)
+    var mountedd=true
+if(mountedd){
+  startTimer();
+
+}
+          return ()=>{
+            mountedd=false
+            clearInterval(interval)}
   },[timerSeconds])
 
 if(timerDays===0&&timerHours===0&&timerMinutes===0&&timerSeconds===0){

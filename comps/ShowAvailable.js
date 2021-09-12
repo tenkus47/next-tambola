@@ -25,11 +25,7 @@ function ShowAvailable() {
     }
 
     return (
-        <div className='availableTickets' style={{display:'flex',marginTop:20,maxWidth:350,alignItems:'center',flexWrap:'wrap',padding:10,flexDirection:'column'}}>
-           <nav style={{marginTop:20,display:'flex',justifyContent:'center'}}>
-            <Link href='/' style={{backgroundColor:'orange',padding:10,textDecoration:'none',color:'black' ,borderRadius:10}}><a>Go to play room</a></Link>
-            </nav>
-              <br/>
+        <div className='availableTickets' style={{display:'flex',marginTop:20,maxWidth:350,alignItems:'center',flexWrap:'wrap',padding:10,flexDirection:'column'}}>              <br/>
            <div style={{color:'green',fontSize:30}}> Green:Available</div>
            <div style={{color:'red',}}> Red:sold </div>
            <div>

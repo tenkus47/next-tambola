@@ -13,27 +13,32 @@ const Tickets=(list=[])=>{
     const [pageNumber,setPageNumber]=useState(0)
     const pagesVisited=pageNumber*postPerPage
     const pagecount=Math.ceil(lists.length/postPerPage)
-    const getAllTicket=async()=>{
-      setloading(true)
-            const res=await  axios.get(serverURL+'/getlist')
-            setlist(res.data)
-        
-       } 
-
-       const currentPosts=lists.slice(pagesVisited,pagesVisited+postPerPage).sort((a,b)=>a.id-b.id);
+  const currentPosts=lists.slice(pagesVisited,pagesVisited+postPerPage).sort((a,b)=>a.id-b.id);
     const changePage=({selected})=>{
       setPageNumber(selected);
     }
  useEffect(()=>{
-    getAllTicket();
-    if(lists.length>0){
-      setloading(false)
-    }
+ let pageloaded=true
+  const getAllTicket=async()=>{
+    setloading(true)
+
+    if(pageloaded){
+          const res=await  axios.get(serverURL+'/getlist')
+          setlist(res.data)
+ }
+
+     } 
+    getAllTicket();  
+  if(lists.length>0){
+    setloading(false)
+  }
+ return ()=>pageloaded=false
   },[lists])
 return (
   <LoadingOverlay
   active={loading}
   spinner
+  fadeSpeed={1000}
   text='Loading your content...'
   >
     <div className='pb-20'> 
@@ -55,7 +60,7 @@ return (
               {item.username==='Available' ?(<div>not sold</div>):(<div style={{color:'green'}}> sold</div>)} 
             </div>
             
-        <TicketViewer ticketdata={item?.ticket} list={list} color={item?.color} />
+   {loading===false?     <TicketViewer ticketdata={item?.ticket} list={list} color={item?.color} />:null}
            </div>
    ))
    } 

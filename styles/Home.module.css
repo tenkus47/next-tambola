@@ -21,6 +21,7 @@
   display: flex;
   gap:20px;
   list-style: none;
+  font-size: small;
   color:red;
   justify-content: space-evenly;
   padding:0;

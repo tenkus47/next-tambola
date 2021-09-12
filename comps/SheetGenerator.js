@@ -231,9 +231,8 @@ function Sheetgenerate({numberOfTicket,create}) {
       type='button'
       style={{borderRadius:3,marginTop:10}}
       onClick={()=>create(newTickets)}
-      value='create Profile'
+      value='create Ticket'
       />
-    
     </div>
   )
 }

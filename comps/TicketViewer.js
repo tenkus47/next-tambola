@@ -1,7 +1,10 @@
 import styles from '../styles/Ticketviewer.module.css'
+import { useSelector } from 'react-redux'
 
+const TicketViewer=({ticketdata=[],color='rgba(23,32,43,0.4)',user={},donelist=[]})=>{
 
-const TicketViewer=({ticketdata=[],color='rgba(23,32,43,0.4)',user={}})=>{
+    const { random, list } = useSelector((state) => state.NumberGenerate);
+
    if(ticketdata.length>0) return (
         <div className={styles.ticketContainer} style={{backgroundColor:color}}>
            {user?.username&&(
@@ -15,18 +18,23 @@ const TicketViewer=({ticketdata=[],color='rgba(23,32,43,0.4)',user={}})=>{
          
                 <div className={styles.Row} >
                     {ticketdata[0].map((item,index)=>(
-                      <div className={styles.element} key={index+10} >
+                      <div className={styles.element} key={index+10}
+                      style={list.includes(item) ?{backgroundColor:'#11324D',color:'white'}:null} 
+                      >
                           {item===0?(''):(item)}</div>
                     ))}
                 </div>
                 <div className={styles.Row}>
                 {ticketdata[1].map((item,index)=>(
-                      <div className={styles.element}  key={index+20}>{item===0?(''):(item)}</div>
+                      <div className={styles.element}  key={index+20} 
+                      style={list.includes(item) ?{backgroundColor:'#11324D',color:'white'}:null} 
+                      >{item===0?(''):(item)}</div>
                     ))}
                 </div>
                 <div className={styles.Row}>
                 {ticketdata[2].map((item,index)=>(
-                      <div className={styles.element} key={index+30}>{item===0?(''):(item)}</div>
+                      <div className={styles.element} key={index+30}  style={list.includes(item) ?{backgroundColor:'#11324D',color:'white'}:null} 
+                      >{item===0?(''):(item)}</div>
                     ))}
                 </div>
             </div>

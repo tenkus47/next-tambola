@@ -92,7 +92,7 @@ useEffect(()=>{
  if(loggedIn){
     return (
     <>
-<div className='profile flex ml-3 items-center mb-2 justify-around mr-3 mt-4'  >   
+<div className='profile flex ml-3 items-center mb-2 justify-around mr-3 mt-2'  >   
 <img src={user.photo} alt='photo' className='rounded-3xl mr-3' height='25px' width='35px'/>
   <div className='font-bold'>{user.username}</div>
  <GoogleLogout
@@ -123,16 +123,23 @@ useEffect(()=>{
               )
               )
           }
-          {typelist.length>0?<div className='px-3'>{typelist.map((t,i)=><span key={i}>{t}</span>)} typing...</div>:null}
+          {typelist.length>0?<div className='px-3'>{typelist.map((t,i)=><span key={i}>{t} ,</span>)}
+          <span> typing </span>
+          <span className={styles.dot1}>.</span>
+          <span className={styles.dot2}>.</span>
+          <span className={styles.dot3}>.</span>
+  </div>:null}
                    </div>
                    <div>
                 </div>    
           </div>
-          <form onSubmit={handlePost} className='flex justify-center mx-10 mb-20 lg:max-w-xl items-center ' style={{margin:'0 auto'}}>
-                        <input type='text' ref={inputref} value={message} onChange={e=>setMessage(e.target.value)} 
+          <form onSubmit={handlePost} className='flex justify-center w-3/4 mb-24 lg:max-w-xl items-center ' style={{margin:'0 auto'}}>
+                        <input type='text' ref={inputref} value={message} style={{width:'80%'}} onChange={e=>setMessage(e.target.value)} 
                         className='rounded border-4 text-black w-full' />
-                        <button className='bg-green-600 rounded text-white'  type='submit' style={{width:'20%'}}>Send</button>
+                        <button className='bg-green-600 rounded text-white px-3'  type='submit' style={{width:'20%'}}>Send</button>
                        </form>
+
+    
     </>
   );
         }

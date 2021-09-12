@@ -8,19 +8,13 @@ var [selected,setSelected]=useState('');
 var numbers=['1','2','3','4','5','6','7','8','9','0']
 var [users,setUser]=useState([]);
 var [loading,setLoading]=useState(false)
+const [mounted,setMounted]=useState(true);
 const idref=useRef(null);
 const handleClick=(item)=>{
         setSelected(prev=>prev+item)
    
 }
 
-const fetcher=async(id)=>{
- var res=await axios.get(serverURL+'/getList')
- var newres=  res.data?.find(item=>item.id===id);
- var phone=newres?.mobile;
- var newres2=  res.data?.filter(item=>item.mobile===phone);
- return newres2;
-}
 
 const handleEnter=()=>{
 setLoading(true)
@@ -37,20 +31,32 @@ idref.current?.scrollIntoView({behavior:'smooth',block: "start", inline: "neares
 });
 }
 
+const fetcher=async(id)=>{
+    var res=await axios.get(serverURL+'/getList')
+    var newres=  res.data?.find(item=>item.id===id);
+    var phone=newres?.mobile;
+    var newres2=  res.data?.filter(item=>item.mobile===phone);
+    
+    return newres2;
+   }
+
 useEffect(()=>{
 var ticketnumber=parseInt(localStorage.getItem('ticketnumber'))
 if(ticketnumber){
     setLoading(true)
+    if(mounted){
     var data= fetcher(ticketnumber);
     data.then(res=>{
         res.sort((a,b)=>a.id-b.id)   
         setUser(res)
         setLoading(false);
         setSelected('')
-        
     idref.current?.scrollIntoView({behavior:'smooth',block: "start", inline: "nearest"});
     });
 }
+
+}
+return ()=>setMounted(false)
 },[])
 
 return (

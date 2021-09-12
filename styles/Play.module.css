@@ -16,8 +16,8 @@
     background-image: url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxleHBsb3JlLWZlZWR8MXx8fGVufDB8fHx8&w=1000&q=80');
 }
 .anouncedlist button{
-    width:30px;
-    height: 30px;
+    width:23px;
+    height: 23px;
 }
 .random{
    text-align: center;
@@ -36,7 +36,6 @@
     max-width: 250px;
     display: flex;
     flex-direction: column;
-    background-color:#D7D1C9 ;
     justify-content: space-around;
     margin:0 auto;
     padding:20px;

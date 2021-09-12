@@ -10,7 +10,7 @@
 }
 .winnerboard > .listElement>button{
     color:black;
-    background:conic-gradient(
+    background:linear-gradient(
         #fd004c,#fe9000,#fff020,#3edf4b,#3363ff,#fd004c
             );
     text-shadow:2px 2px 2px rgba(222,255,255, .65);

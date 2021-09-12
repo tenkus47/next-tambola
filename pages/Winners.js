@@ -3,45 +3,51 @@ import { useState,useEffect } from 'react';
 import axios from 'axios'
 import { serverURL } from '../servers';
 import LoadingOverlay from 'react-loading-overlay';
-
+import { socket } from "../socket";
 import TicketViewer from '../comps/TicketViewer';
+
+
+
 const Winners=()=>{
     const [table, setTable] = useState();
-
-    const [listofwinner, setlistofwinner] = useState(false);
     const [loading,setloading]=useState(false)
-
+    const [winnerlist, setwinnerlist] = useState([]);
     const [showElement, setShowElement] = useState({});
     useEffect(() => {
+        var mounted=true
         var id = showElement.id ? parseInt(showElement.id) : 0;
-        const fetcher = async () => {
+        if(mounted){ const fetcher = async () => {
+          
           var res = await axios.get(serverURL + `/getlist/${id}`);
-         setTable(res.data[0]);
-        };
+          setTable(res.data[0]);
+          }
         fetcher();
+        
+      };
+        return ()=>mounted=false
       }, [showElement]);
     useEffect(() => {
+      var mounted2=true
       setloading(true)
-        axios.get(serverURL + "/getwinnerlist").then((res) => {
-          if (res.data[res.data.length - 1]?.thirdfullhouseWinner.length > 0) {
-         
-            setwinnerlist({
-              firstlineWinner: res.data[res.data.length - 1].firstlineWinner,
-              secondlineWinner: res.data[res.data.length - 1].secondlineWinner,
-              thirdlineWinner: res.data[res.data.length - 1].thirdlineWinner,
-              fourcornerWinner: res.data[res.data.length - 1].fourcornerWinner,
-              tempwinner: res.data[res.data.length - 1].temperatureWinner,
-              q5winner: res.data[res.data.length - 1].quickfiveWinner,
-              fullhouseWinner: res.data[res.data.length - 1].fullhouseWinner,
-              secondfullhouseWinner:
-                res.data[res.data.length - 1].secondfullhouseWinner,
-              thirdfullhouseWinner:
-                res.data[res.data.length - 1].thirdfullhouseWinner,
-            });
-            setlistofwinner(true);
-            setloading(false)
-          }
-        });
+      
+      if(mounted2){
+      const fetchwinner=async()=>{
+         var res= await axios.get(serverURL + "/getwinnerlist");
+         if (res.data.length>0) {
+          setwinnerlist(res.data[0].winnerlist);
+        setloading(false)
+        }
+      }
+     fetchwinner();
+    }
+      socket.connect();
+      socket.on('winnerlist',data=>{
+        setwinnerlist(data);
+        setloading(false)
+      })
+
+      return ()=>mounted2=false
+
       }, []);
       function mapped(item, index) {
         return (
@@ -56,7 +62,6 @@ const Winners=()=>{
           </button>
         );
       }
-    const [winnerlist, setwinnerlist] = useState();
 
     return (
 <LoadingOverlay
@@ -64,16 +69,15 @@ const Winners=()=>{
   spinner
   text='Loading Winnerlist...'
   >
-
         <div className={styles.winner}>
             <center>
           <div className="board mt-7">
-            
+            <h1 className='font-mono text-xl font-bold'>Winners</h1>
                         {winnerlist && (
               <div className={styles.winnerboard}>
                 {showElement?.name&&showElement?.id ? (
               <div style={{marginBottom:40}}>
-                <h3>
+                <h3 className='font-serif font-bold'>
                   {" "}
                   {showElement.name} : {showElement.id}{" "}
                 </h3>
@@ -84,33 +88,13 @@ const Winners=()=>{
                 />
               </div>
             ) : null}
-                <div className={styles.listElement}>
-                  quick five : {winnerlist?.q5winner.map(mapped)}{" "}
+                 {
+                 winnerlist.map((winner,index)=>(
+                  <div className={styles.listElement} key={index}>
+                  {winner?.list.length>0 && winner?.name} {winner?.list.map(mapped)}{" "}
                 </div>
-                {/* <div className='listElement '>temperature  :  {winnerlist?.tempwinner.map(mapped)}  </div> */}
-                <div className={styles.listElement}>
-                  Four corner : {winnerlist?.fourcornerWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  First line : {winnerlist?.firstlineWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  Second line : {winnerlist?.secondlineWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  Third line : {winnerlist?.thirdlineWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  First fullhouse : {winnerlist?.fullhouseWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  Second fullhouse :{" "}
-                  {winnerlist?.secondfullhouseWinner.map(mapped)}{" "}
-                </div>
-                <div className={styles.listElement}>
-                  Third fullhouse :{" "}
-                  {winnerlist?.thirdfullhouseWinner.map(mapped)}{" "}
-                </div>
+                        ))
+                 }
               </div>
             )}
           </div>
