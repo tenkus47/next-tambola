@@ -1,15 +1,15 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import ShowAvailable from "../../comps/ShowAvailable";
-import { socket } from "../../socket";
-import { serverURL } from "../../servers";
+import ShowAvailable from "../comps/ShowAvailable";
+import { socket } from "../socket";
+import { serverURL } from "../servers";
 import styles from "../../styles/admin.module.css";
 import { useDispatch,useSelector } from "react-redux";
-import {updateBingoSerie} from '../../comps/sheetGenerator'
+import {updateBingoSerie} from '../comps/sheetGenerator'
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
-import Arrayremove from '../../comps/Arrayremove'
-import { getUnique } from "../../comps/getUnique";
+import Arrayremove from '../comps/Arrayremove'
+import { getUnique } from "../comps/getUnique";
 const Admin = () => {
  
   const [sheet, setSheet] = useState();
