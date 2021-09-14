@@ -14,8 +14,11 @@ const [timeactual,setActualdate]=useState()
     const startTimer=async()=>{
       var res= await axios.get(serverURL+'/Timings')
       const countDownDate=new Date(res.data[0].startTime).getTime();
-      setActualdate(new Date(res.data[0].startTime));
+      var d1=new Date(res.data[0].startTime)
+      d1.toString('dddd, MMMM ,yyyy') 
+      setActualdate(d1);
       interval=setInterval(()=>{
+      
        const now=new Date().getTime();
        const distance=countDownDate-now;
        const days=Math.floor(distance/(24*60*60*1000))
@@ -63,9 +66,9 @@ if(timerDays===0&&timerHours===0&&timerMinutes===0&&timerSeconds===0){
              </div>   
 <div>
 {timeactual?.getDate()}:{
-
-timeactual?.getMonth()<10 ?'0'+timeactual?.getMonth():timeactual?.getMonth()
-
+(parseInt(timeactual?.getMonth())+1)<10 ?'0'
++(parseInt(timeactual?.getMonth())+1)
+:(parseInt(timeactual?.getMonth())+1)
 }:{timeactual?.getFullYear()}
   </div>  
             </div>

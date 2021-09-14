@@ -55,6 +55,17 @@ Modal.setAppElement('#__next')
       }, 3000);
   
     })
+    socket.on("temptaken",()=>{
+      setshowcel(true)
+      setTimeout(() => {
+        setshowcel(false);
+        var sound = new Howl({
+          src: ['audio/temperature.mp3'],
+        });
+        sound.play();
+      }, 3000);
+  
+    })
     socket.on("fourcornertaken",()=>{
       
       setshowcel(true)
@@ -149,7 +160,27 @@ Modal.setAppElement('#__next')
        sound.play();
       },3500);
     })
-    
+    socket.on("halfSheetTaken",()=>{
+      setshowcel(true)
+      setTimeout(() => {
+        setshowcel(false)
+        var sound = new Howl({
+          src: ['audio/halfSheet.mp3'],
+        });
+       sound.play();
+      },3500);
+    })
+    socket.on("fullsheetTaken",()=>{
+      setshowcel(true)
+      setTimeout(() => {
+        setshowcel(false)
+        var sound = new Howl({
+          src: ['audio/sheetcorner.mp3'],
+        });
+       sound.play();
+      },3500);
+    })
+    return ()=>socket.disconnect()
   }, []);
   useEffect(() => {
     if(random){
@@ -209,7 +240,8 @@ Modal.setAppElement('#__next')
       backgroundColor:'black',
       color:'white',
       fontSize:'30px',
-      fontFamily:'serif'
+      fontFamily:'serif',
+      overflow:'hidden',
     }
     
   };
@@ -225,6 +257,7 @@ Modal.setAppElement('#__next')
   const options = {
     speed: 3,
     sound:{enable:true,files:['audio/cheer.mp3']},
+    
   }
   return (
     <div>

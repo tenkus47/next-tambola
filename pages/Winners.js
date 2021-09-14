@@ -5,10 +5,12 @@ import { serverURL } from '../servers';
 import LoadingOverlay from 'react-loading-overlay';
 import { socket } from "../socket";
 import TicketViewer from '../comps/TicketViewer';
+import { useDispatch } from 'react-redux';
 
 
 
 const Winners=()=>{
+  const dispatch =useDispatch();
     const [table, setTable] = useState();
     const [loading,setloading]=useState(false)
     const [winnerlist, setwinnerlist] = useState([]);
@@ -41,18 +43,31 @@ const Winners=()=>{
      fetchwinner();
     }
       socket.connect();
+      socket.on("number", (item, list) => {
+        dispatch({ type: "update", item, list });
+        console.log(item)
+      });
       socket.on('winnerlist',data=>{
         setwinnerlist(data);
         setloading(false)
       })
+      socket.on('gamefinished',()=>{
+        setTimeout(() => {
+          var sound = new Howl({
+            src: ['audio/gamefinished.mp3'],
+          });
+          sound.play();
+        }, 3000);
+      })
 
-      return ()=>mounted2=false
+      return ()=>{mounted2=false;
+         socket.disconnect()}
 
       }, []);
       function mapped(item, index) {
-        return (
+        return (         
           <button
-            key={index}
+          key={index}
             type="button"
             onClick={() => setShowElement({ name: item[0], id: item[1] })}
           >
@@ -60,6 +75,7 @@ const Winners=()=>{
               {item[0]} Ticket:{item[1]}
             </span>
           </button>
+
         );
       }
 
@@ -77,7 +93,7 @@ const Winners=()=>{
               <div className={styles.winnerboard}>
                 {showElement?.name&&showElement?.id ? (
               <div style={{marginBottom:40}}>
-                <h3 className='font-serif font-bold'>
+                <h3 className='font-serif font-bold capitalize'>
                   {" "}
                   {showElement.name} : {showElement.id}{" "}
                 </h3>
@@ -89,9 +105,9 @@ const Winners=()=>{
               </div>
             ) : null}
                  {
-                 winnerlist.map((winner,index)=>(
+                 winnerlist?.map((winner,index)=>(
                   <div className={styles.listElement} key={index}>
-                  {winner?.list.length>0 && winner?.name} {winner?.list.map(mapped)}{" "}
+                  {winner?.list?.length>0 && winner?.name} {winner?.list?.map(mapped)}{" "}
                 </div>
                         ))
                  }

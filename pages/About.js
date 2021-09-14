@@ -15,8 +15,11 @@ useEffect(() => {
              setMessages(data)
     )
     socket2.on("usertyping",(data)=>{
-      settypelist(prev=>{ if(!prev.includes(data)) return [...prev,data]
-                           return [...prev]                     
+      settypelist(prev=>{ if(!prev.includes(data)){
+      var listarray=[...prev,data].slice(0,4);
+      return listarray
+      }                     
+        return [...prev]                     
       })
     })
     socket2.on("usernottyping",data=>{
@@ -27,9 +30,6 @@ useEffect(() => {
       }
      settypelist(typer);
     })
-
-
-   
 
 }, [])
  const [message,setMessage]=useState("")
@@ -123,7 +123,8 @@ useEffect(()=>{
               )
               )
           }
-          {typelist.length>0?<div className='px-3'>{typelist.map((t,i)=><span key={i}>{t} ,</span>)}
+          {typelist.length>0?<div className='px-3'>{typelist.map((t,i)=><span key={i} className='font-bold'>
+              {t} {i!==typelist.length-1?',':null} </span>)}
           <span> typing </span>
           <span className={styles.dot1}>.</span>
           <span className={styles.dot2}>.</span>

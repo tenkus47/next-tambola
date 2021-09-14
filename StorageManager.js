@@ -33,7 +33,6 @@ export default function UserList(state = [], action = { data: [] }) {
 
       for (var i = 0; i < numberOfTickets; i++) {
         
-        
         for (var h = 0; h < action.data[j].length; h++) {
 
          var s= compareandswap(action.data[j][h],action.data[j+1][h]);
@@ -60,13 +59,13 @@ export default function UserList(state = [], action = { data: [] }) {
         }
 
         Ticket = [action.data[j], action.data[j + 1], action.data[j + 2]]; 
-         
-       
-          createProfile(Ticket,color)
-          // createuserfunction(Ticket,color);
         j = j + 3;
+try{
+        createProfile(Ticket,color)
+}catch (e){
+  console.log('couldnot create')
+}
       }
-
       return state;
 
     default:

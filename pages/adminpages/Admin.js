@@ -1,33 +1,82 @@
 import axios from "axios";
-import Sheetgenerate from "../../comps/SheetGenerator";
 import { useState, useEffect } from "react";
 import ShowAvailable from "../../comps/ShowAvailable";
 import { socket } from "../../socket";
 import { serverURL } from "../../servers";
-import moment from "moment";
 import styles from "../../styles/admin.module.css";
-
+import { useDispatch,useSelector } from "react-redux";
+import {updateBingoSerie} from '../../comps/sheetGenerator'
+import { Progress } from 'react-sweet-progress';
+import "react-sweet-progress/lib/style.css";
+import Arrayremove from '../../comps/Arrayremove'
+import { getUnique } from "../../comps/getUnique";
 const Admin = () => {
+ 
   const [sheet, setSheet] = useState();
   const [option, setOption] = useState([]);
   const [loading, setloading] = useState(false);
   const [selectlist, setSelectlist] = useState([]);
   const [time, setTime] = useState();
+  const [message, setmessage] = useState();
+  const dispatch=useDispatch();
+  const [username,setuserName]=useState('');
+  const [mobile,setmobile]=useState('');
+
+  const [creating,setCreating]=useState(false);
+  const [percentage,setpercentage]=useState(0);
+  const [status,setStatus]=useState('');
+
+  useEffect(()=>{
+   
+    let pageloaded=true
+    const fetcher=async()=>{
+      setloading(true)
+      if(pageloaded){
+      const res=await axios.get(serverURL+'/getList')
+      var ar=res.data.sort((a,b)=>a.id-b.id)
+      var filtered=ar.filter(item=>item.username==='Available')
+      setSelectlist(filtered)
+    }
+    }
+    fetcher()
+
+    if(selectlist.length!==0){
+      setloading(false)
+  }
+    return ()=>pageloaded=false
+  },[selectlist])
+
   useEffect(() => {
     socket.on("number", (item, list) => {
-      // dispatch({type:'update',item,list})
+      dispatch({type:'update',item,list})
     });
   }, [socket]);
 
-  function mulgenerator(data) {
-    dispatch({
-      type: "sheetgenerate",
-      data,
-    });
-    setTimeout(() => {
-      window.location = "/adminpage";
-    }, 1000);
+  
+var timeout = null;
+  let sleep = (ms) =>
+  new Promise((resolve) => (  timeout = setTimeout(resolve, ms)));
+  const  mulgenerator=async()=> {
+    setCreating(true);
+    setStatus('active')
+
+    for(var r=0;r<101;r+=100/sheet){
+      setpercentage(Math.floor(r));
+      if(r!==0){
+      var res= updateBingoSerie();
+         dispatch({
+           type: "sheetgenerate",
+            data:res,
+         });
+     
+       await sleep(1000)
+      }
+    }
+    setStatus('success')
+    setCreating(false)
   }
+
+
   const submitTime = () => {
     axios
       .post(serverURL + "/Timings", {
@@ -36,18 +85,20 @@ const Admin = () => {
       .then((res) => console.log(res))
       .catch((e) => console.log(e));
   };
-  const OrderTicket = async () => {
-    console.log(option, username, mobile);
-    await axios.patch(serverURL + "/changeusername", {
+  const OrderTicket =async () => {
+  await axios.patch(serverURL + "/changeusername", {
       id: option,
       username,
       mobile: mobile,
-    });
-    alert("order placed");
-    setOption([]);
-    setuserName(null);
-    setmobile(0);
+    })
+    
   };
+  const clickSave=async()=>{
+  const res= await axios.get(serverURL+'/start',{params:{
+  condition:true,listing:checkedlist
+  }});
+  console.log(res);
+  }
   const clickStart = () => {
     socket.emit("starts", {condition:true,listing:checkedlist},);
   };
@@ -96,7 +147,10 @@ const winnerlistoption=[{name:'Quick Five'},
 {name:'Bottom Line'},
 {name:'Fullhouse'},
 {name:'Second Fullhouse'},
-{name:'Third Fullhouse'}
+{name:'Third Fullhouse'},
+{name:'Half Sheet'},
+{name:'Full Sheet'}
+
 ];
 const [checkedlist,setCheckedlist]=useState([]);
 const handlecheckbox=(e)=>{
@@ -112,7 +166,16 @@ const handlecheckbox=(e)=>{
           setCheckedlist(arrays)
         }
 }
-
+const removeFromList=(e)=>{
+  var prev=option;
+   var newa=Arrayremove(prev,e.target.value);
+  setOption([...newa])
+}
+const reset=()=>{
+  setmobile('')
+  setuserName('')
+  setOption([])
+}
 return (
     <center>
       <div
@@ -148,25 +211,62 @@ return (
               min="1"
               max="6"
               style={{ padding: 7, borderRadius: 3 }}
-              placeholder="no. of ticket in sheet"
+              placeholder="no. of sheet"
               type="text"
               onChange={(e) => setSheet(e.target.value)}
             />
-            <Sheetgenerate numberOfTicket={sheet} create={mulgenerator} />
+         
+         {creating?(<Progress percent={percentage} status={status}  theme={
+    {
+      error: {
+        symbol: percentage + '%',
+        trailColor: 'pink',
+        color: 'red'
+      },
+      default: {
+        symbol: percentage+ '%',
+        trailColor: 'lightblue',
+        color: 'blue'
+      },
+      active: {
+        symbol: percentage+ '%',
+        trailColor: 'yellow',
+        color: 'orange'
+      },
+      success: {
+        symbol: percentage + '%',
+        trailColor: 'lime',
+        color: 'green'
+      }
+    } }
+/>  ):
+         ( <center><button type='button' className='bg-blue-500 rounded p-1 font-bold mt-1' onClick={mulgenerator}>create</button></center>)
+         }  
+         
+         
+         
           </div>
         </form>
         <h3 className="font-bold my-3">Buyer Section</h3>
         <div className={styles.buyerSection}>
+    <div>{
+      option.map(o=><button 
+        key={o}
+        type='button'
+        className='m-2'
+        value={o}
+        onClick={removeFromList}>{o}</button>)
+      }</div>
           {loading ? (
             <h3>Loading</h3>
           ) : (
             <select
               className={styles.listOfTickets}
               defaultValue={0}
-              onChange={(e) => setOption((prev) => [...prev, e.target.value])}
+              onChange={(e) => setOption((prev) => getUnique([...prev, e.target.value]))}
             >
               {selectlist.map((item, index) => (
-                <option key={index} className={styles.item - tickets}>
+                <option key={index} className={styles.item}>
                   {item.id}
                 </option>
               ))}
@@ -176,15 +276,20 @@ return (
             type="text"
             placeholder="username"
             className='text-center'
+            value={username}
             onChange={(e) => setuserName(e.target.value)}
           />
           <input
             type="text"
+            value={mobile}
             placeholder="mobile"
             className='text-center'
             onChange={(e) => setmobile(e.target.value)}
           />
-          <button type="button" onClick={OrderTicket} className={styles.btn}>
+          <button type="button" onClick={()=>{
+            OrderTicket();
+            reset();
+      }} className={styles.btn}>
             placeOrder
           </button>
         </div>
@@ -192,7 +297,7 @@ return (
           <h3 className='font-bold my-2'>Set Game Time</h3>
           <input
             type="datetime-local"
-            onChange={(e) => console.log(moment(e.target.value._d))}
+            onChange={(e) => setTime(new Date( e.target.value ))}
           />
           <button onClick={submitTime} className={styles.btn}>set GameTime</button>
         </div>
@@ -215,10 +320,15 @@ return (
           >
             <div>
               {" "}
-            
+              <button
+                onClick={clickSave}
+                id="start-btn"
+                className={styles.btncontrol}
+              >
+                save and start
+              </button>
               <button
                 onClick={clickStart}
-                id="start-btn"
                 className={styles.btncontrol}
               >
                 start

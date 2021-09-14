@@ -1,16 +1,16 @@
 
 
 export const soundfile=[
-    'Kelly’s eye',
-    'Kaala dhan',
+    'first number of tambola',
+    'Kaala dhaan',
     'Cup of tea',
-    'Hum doh, humare doh',
+    'Ham doh, hamare doh',
     'Punjab mail',
     'Half a dozen',
     'Lucky',
-    'Garden gate',
+    'one fat lady',
     'Brighton line',
-    'Boris’s den.',
+    'my birth date',
    'Legs eleven',
     'One dozen',
    'Unlucky for some',

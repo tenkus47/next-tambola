@@ -9,16 +9,21 @@ function ShowAvailable() {
     const [ticketList,setTicketlist]=useState([]);
     useEffect(()=>{
 
+        let pageloaded=true
         const fetcher=async()=>{
             setloading(true)
+            if(pageloaded){
             const res=await axios.get(serverURL+'/getList')
             setTicketlist(res.data.sort((a,b)=>a.id-b.id));
-            setloading(false)
+           
+            }
           }
           fetcher()
-    
-    
-    },[])
+    if(ticketList.length>0){
+        setloading(false)
+    }
+    return ()=>pageloaded=false
+    },[ticketList])
 
     if(loading){
       return  <h3>loading</h3>

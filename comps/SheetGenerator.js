@@ -1,29 +1,19 @@
-import {useState,useEffect} from 'react'
-function Sheetgenerate({numberOfTicket,create}) {
 
-
- const [newTickets,setnewTicket]=useState([])
-
- var newOne=[]
-  var oneRow=[]
-  var n=numberOfTicket
-  useEffect(()=>{
-    if(numberOfTicket<7){
-      updateBingoSerie() 
-    }
-  },[numberOfTicket])
+export function updateBingoSerie () {
+  var newTickets=[]
+  const numberOfTicket=6
+   var oneRow=[]
+   var n=numberOfTicket  
+  var newOne=[]
     
-    function updateBingoSerie () {
     const bingoSerie = new Serie()
     generateSerie(0, bingoSerie)
     const serie = new BingoSerie()
     for (let e = 0; e < n; e++) {
-      const ticket = new BingoTicket(bingoSerie.data[e])
+      const ticket = new BingoTicket(bingoSerie.data[e]);
       ticket.data.forEach((row, i) => {
         row.forEach((item, j) => {
           const index = i * 9 + j
-          const newCell = document.createElement('div')
-          newCell.classList.add('ticket__number')
           if (item === 0) {
             newOne[j]=0       
           } else {
@@ -35,8 +25,11 @@ function Sheetgenerate({numberOfTicket,create}) {
         oneRow.push([...newOne]);
       })
     }
-    setnewTicket([...oneRow])
+    
+    newTickets=[...oneRow]
+    return newTickets
   }
+
   
   function random (maxValue) {
     return Math.floor(Math.random() * maxValue)
@@ -225,16 +218,3 @@ function Sheetgenerate({numberOfTicket,create}) {
   
 
 
-  return (
-    <div>
-      <input
-      type='button'
-      style={{borderRadius:3,marginTop:10}}
-      onClick={()=>create(newTickets)}
-      value='create Ticket'
-      />
-    </div>
-  )
-}
-
-export default Sheetgenerate
