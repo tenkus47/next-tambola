@@ -1,5 +1,5 @@
 
-export function updateBingoSerie () {
+const updateBingoSerie=()=> {
   var newTickets=[]
   const numberOfTicket=6
    var oneRow=[]
@@ -218,3 +218,4 @@ export function updateBingoSerie () {
   
 
 
+export default updateBingoSerie;

@@ -4,8 +4,8 @@ import ShowAvailable from "../comps/ShowAvailable";
 import { socket } from "../socket";
 import { serverURL } from "../servers";
 import styles from "../styles/admin.module.css";
-import { useDispatch,useSelector } from "react-redux";
-import {updateBingoSerie} from '../comps/sheetGenerator'
+import { useDispatch } from "react-redux";
+import updateBingoSerie from '../comps/sheetGenerator';
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import Arrayremove from '../comps/Arrayremove'
