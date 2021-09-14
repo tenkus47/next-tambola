@@ -5,7 +5,7 @@ import { socket } from "../socket";
 import { serverURL } from "../servers";
 import styles from "../styles/admin.module.css";
 import { useDispatch } from "react-redux";
-import updateBingoSerie from '../comps/sheetGenerator';
+import updateBingoSerie from '../sheetGenerator';
 import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import Arrayremove from '../comps/Arrayremove'
