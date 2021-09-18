@@ -1,0 +1,7 @@
+.btn{
+    margin:3px;
+}
+.btn:disabled{
+    opacity: 0.4;
+    background-color: red;
+}

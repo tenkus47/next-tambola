@@ -5,16 +5,30 @@ import { serverURL } from '../servers';
 import LoadingOverlay from 'react-loading-overlay';
 import { socket } from "../socket";
 import TicketViewer from '../comps/TicketViewer';
-import { useDispatch } from 'react-redux';
-
-
+import { useDispatch,useSelector } from 'react-redux';
+import { Howl } from "howler";
+import Modal from 'react-modal'
+import {customStyles} from '../comps/customModalStyle'
 
 const Winners=()=>{
+  
+Modal.setAppElement('#__next')
+  const { random, list } = useSelector((state) => state.NumberGenerate);
   const dispatch =useDispatch();
     const [table, setTable] = useState();
     const [loading,setloading]=useState(false)
     const [winnerlist, setwinnerlist] = useState([]);
     const [showElement, setShowElement] = useState({});
+    const [modalOpen,setModalOpen]=useState(false);
+ 
+    useEffect(()=>{
+      if(random){
+        setModalOpen(true);
+      }
+      setTimeout(()=>{
+        setModalOpen(false);
+       },3000)
+    },[random])
     useEffect(() => {
         var mounted=true
         var id = showElement.id ? parseInt(showElement.id) : 0;
@@ -29,28 +43,12 @@ const Winners=()=>{
         return ()=>mounted=false
       }, [showElement]);
     useEffect(() => {
-      var mounted2=true
-      setloading(true)
       
-      if(mounted2){
-      const fetchwinner=async()=>{
-         var res= await axios.get(serverURL + "/getwinnerlist");
-         if (res.data.length>0) {
-          setwinnerlist(res.data[0].winnerlist);
-        setloading(false)
-        }
-      }
-     fetchwinner();
-    }
       socket.connect();
       socket.on("number", (item, list) => {
         dispatch({ type: "update", item, list });
-        console.log(item)
       });
-      socket.on('winnerlist',data=>{
-        setwinnerlist(data);
-        setloading(false)
-      })
+     
       socket.on('gamefinished',()=>{
         setTimeout(() => {
           var sound = new Howl({
@@ -59,11 +57,35 @@ const Winners=()=>{
           sound.play();
         }, 3000);
       })
+      socket.on("winnerListChanged",(data)=>{
+        if(winnerlist!==data?.winnerlist){
+          setwinnerlist(data?.winnerlist)
+        }
+      })
 
-      return ()=>{mounted2=false;
-         socket.disconnect()}
+      return ()=>socket.disconnect()
 
       }, []);
+
+useEffect(()=>{
+  let pageloaded=true
+ 
+  const fetchwinner=async()=>{
+  setloading(true)
+  if(pageloaded){
+     var res= await axios.get(serverURL + "/getwinnerlist"); 
+      setwinnerlist(res?.data[0]?.winnerlist);
+      setloading(false)
+  }
+    }
+  
+ fetchwinner();
+
+return ()=>pageloaded=false
+},[])
+
+
+
       function mapped(item, index) {
         return (         
           <button
@@ -85,6 +107,13 @@ const Winners=()=>{
   spinner
   text='Loading Winnerlist...'
   >
+    <Modal isOpen={modalOpen} style={customStyles}
+     shouldCloseOnEsc={true}
+     shouldCloseOnOverlayClick={false}
+     onRequestClose={()=>setModalOpen(false)}
+     >
+       <h1>{random}</h1> 
+       </Modal>
         <div className={styles.winner}>
             <center>
           <div className="board mt-7">

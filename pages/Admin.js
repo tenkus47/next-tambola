@@ -10,6 +10,7 @@ import { Progress } from 'react-sweet-progress';
 import "react-sweet-progress/lib/style.css";
 import Arrayremove from '../comps/Arrayremove'
 import { getUnique } from "../comps/getUnique";
+import Agentlist from "../comps/Agentlist";
 const Admin = () => {
  
   const [sheet, setSheet] = useState();
@@ -25,6 +26,12 @@ const Admin = () => {
   const [creating,setCreating]=useState(false);
   const [percentage,setpercentage]=useState(0);
   const [status,setStatus]=useState('');
+  
+  const [ticketPrice,setTicketPrice]=useState('')
+  const [commisionPrice,setCommisionPrice]=useState('')
+
+
+
 
   useEffect(()=>{
    
@@ -53,6 +60,26 @@ const Admin = () => {
   }, [socket]);
 
   
+  const savePrice=async()=>{
+    if(ticketPrice===''||commisionPrice===''){
+      alert('field cannot be empty')
+    }
+    else{
+   try{ 
+     await axios.post(serverURL+'/postprice',{
+      data:{
+        game:ticketPrice,
+        commision:commisionPrice
+      }
+    })
+  }
+  catch(e){
+    console.log('update Error')
+  }
+}
+  }
+
+
 var timeout = null;
   let sleep = (ms) =>
   new Promise((resolve) => (  timeout = setTimeout(resolve, ms)));
@@ -370,13 +397,28 @@ return (
           >
             end server
           </button>
-          <button
+              <button
                 onClick={clickplayerreset}
                 className={styles.btncontrol}
               >
                 Playerlist delete
               </button>
-      </div>
+        </div>
+        <center><h3 className='font-bold font-serif'>Set Ticket Price</h3></center>
+ <div className='bg-red-300 flex max-w-3/4 border-2 justify-around'>
+        <input placeholder='ticketPrice ' className=' text-center w-1/3' value={ticketPrice} onChange={e=>setTicketPrice(e.target.value)}/>
+        <input placeholder='Commision' className='text-center w-1/3' value={commisionPrice} onChange={e=>setCommisionPrice(e.target.value)}/>
+         </div>
+       <button className='bg-blue-500 p-2 w-full' onClick={()=>{savePrice();
+    setTicketPrice('');
+    setCommisionPrice('');
+    }}>Save
+        </button>
+   
+ 
+      <h1 className='font-bold font-sans'>List of Agent</h1>
+  <Agentlist/>
+
 
       <center>
         <div style={{ marginBottom: 20 }}>
