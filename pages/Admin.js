@@ -120,6 +120,12 @@ var timeout = null;
     })
     
   };
+  const deleteChat=async()=>{
+  const res=await axios.get(serverURL+'/chatdelete');
+   if(res.data){
+     alert(res.data)
+   }
+  }
   const clickSave=async()=>{
   const res= await axios.get(serverURL+'/start',{params:{
   condition:true,listing:checkedlist
@@ -389,6 +395,14 @@ return (
               send message
             </button>
           </div>
+          <button
+            onClick={deleteChat}
+            style={{ display: "block", backgroundColor: "maroon" }}
+            id="stop-btn"
+            className={styles.btncontrol}
+          >
+            delete chats
+          </button>
           <button
             onClick={clickend}
             style={{ display: "block", backgroundColor: "red" }}
