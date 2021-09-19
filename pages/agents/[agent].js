@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect,useState } from "react";
 import { serverURL } from "../../servers"
 import TicketBuy from '../../comps/TicketBuy'
+import { useRouter } from 'next/router'
 
 export const getStaticPaths =async()=>{
     const res = await axios.get(serverURL+'/agentList')
@@ -31,11 +32,13 @@ export const getStaticProps=async(context)=>{
 
 
 const AgentPage=({data,price})=>{
+  const router = useRouter()
     const [loading,setLoading]=useState(false);
     const [pass,setPass]=useState()
     const [loggedIn,setLoggedIn] =useState(false)
     const [ticketList,setTicketList]=useState([])
-
+    const [message,setMessage]=useState('')
+  const [trycount,setTryCount]=useState(3)
     useEffect(()=>{
         let pageloaded=true
         const fetcher=async()=>{
@@ -59,11 +62,24 @@ const AgentPage=({data,price})=>{
        setLoggedIn(true);
    }
     },[])
-    
-   function submitHandle(){
+   function submitHandle(e){
+     e.preventDefault()
        if(pass===data?.key){
        localStorage.setItem('agentKey',pass)
        setLoggedIn(true);
+       }
+       else{
+         setTryCount(prev=>prev-1)
+         if(trycount===0){
+          setMessage('redirecting back to homepage, too many tries')
+           setTimeout(()=>{
+            router.push('/')       
+           },3000)
+          }
+         else{
+         setMessage('inCorrect password , '+ trycount+ 'left' )
+
+         }
        }
    }
 
@@ -124,6 +140,7 @@ const AgentPage=({data,price})=>{
     else{
         return <center>
             <h1 className='font-bold font-serif mb-10'>Login Page</h1>
+            <div className='text-red-500 font-bold capitalize text-sm'>{message}</div>
                 <form onSubmit={submitHandle} className='flex flex-col justify-center items-center'>
                     <input onChange={e=>setPass(e.target.value)} placeholder='password' className='text-center mb-2 bg-gray-300 border-2 text-black'/>
                     <button type='submit' className='bg-red-300 px-2 rounded'>Enter</button>
