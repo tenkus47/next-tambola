@@ -1,15 +1,30 @@
 import axios from "axios";
 import { serverURL } from "../../servers";
 import Router from 'next/router'
-export default function ListOfSale({data,filtered}) {
+
+
+export const getStaticProps=async(context)=>{
+    const id=context.params.list;
+   const res = await axios.get(serverURL+'/agentList/'+id)
+   const res2= await axios.get(serverURL+'/getList')
+   const data2=res2.data;
    
+   const data=res.data[0];
+   var filtered=data2.filter(item=>item.agentName===data.name)
+
+   return {props:{data,
+                  filtered}}
+}
+
+export default function ListOfSale({data,filtered}) {
+    filtered.sort((a, b) => a.username.localeCompare(b.username))
 
 
     return (
         <div><center><h2 className='capitalize font-bold font-sans'>name: {data.name}</h2></center>
              <center><h2>mobile: {data.mobile}</h2></center>
         
-        <table width='100%' className='text-center' style={{border:'1px solid black'}}>
+        <table width='100%' className='text-center max-w-xl m-auto ' style={{border:'1px solid black'}} >
             <thead>
                 <tr>
                     <th>Sr. </th>
@@ -59,15 +74,3 @@ export const getStaticPaths =async()=>{
       
 }
 
-export const getStaticProps=async(context)=>{
-    const id=context.params.list;
-   const res = await axios.get(serverURL+'/agentList/'+id)
-   const res2= await axios.get(serverURL+'/getList')
-   const data2=res2.data;
-   
-   const data=res.data[0];
-   var filtered=data2.filter(item=>item.agentName===data.name)
-
-   return {props:{data,
-                  filtered}}
-}

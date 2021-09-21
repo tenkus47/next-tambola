@@ -17,21 +17,18 @@ import { Fireworks } from 'fireworks-js/dist/react'
 import {customStyles} from '../comps/customModalStyle'
 
 export default function Play() {
-  
+ 
 Modal.setAppElement('#__next')
   const { random, list } = useSelector((state) => state.NumberGenerate);
   const { speak } = useSpeechSynthesis(); 
    const [showcel,setshowcel]=useState();
    var [anouncedN,setanouncedN] = useState(false);
-   const [gamedone,Setgamefinished]=useState();
    const dispatch = useDispatch();
    const [modalOpen,setModalOpen]=useState(false);
    const [winnerlist,setwinnerlist]=useState([]);
    const router = useRouter()
   useEffect(() => {
-    socket.on("connect", () => {
-      console.log("connected");
-    });
+    socket.connect();
     socket.on("number", (item, list) => {
       dispatch({ type: "update", item, list });
     });
@@ -45,7 +42,6 @@ Modal.setAppElement('#__next')
         var sound = new Howl({
           src: ['audio/gamefinished.mp3'],
         });
-        Setgamefinished(true);  
         sound.play();
         router.push('/Winners')
       }, 4000);
@@ -192,6 +188,8 @@ Modal.setAppElement('#__next')
     })
     return ()=>socket.disconnect()
   }, []);
+
+
   useEffect(() => {
     if(random){
       setModalOpen(true);

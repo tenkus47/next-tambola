@@ -50,7 +50,7 @@ ticketList.map((ticket,index)=>(
      shouldCloseOnOverlayClick={true}
      onRequestClose={()=>setOpenSell(false)}
      >
-      <SellTicket agentData={agentData} ticketlist={ticketList} selected={selected} setOpen={setOpenSell}/>
+      <SellTicket setSelected={setSelected} agentData={agentData} ticketlist={ticketList} selected={selected} setOpen={setOpenSell}/>
        </Modal>
 
 
@@ -66,7 +66,14 @@ ticketList.map((ticket,index)=>(
     backgroundColor:'blue',
     color:'white'
 }}
-onClick={()=>setOpenSell(prev=>!prev)}
+onClick={()=>{
+    if(selected.length>0){
+
+        setOpenSell(prev=>!prev)
+    }
+    else{
+        alert('select ticket first')
+    }}}
 >
     SELL
 </button>
