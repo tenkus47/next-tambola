@@ -148,7 +148,9 @@ const btn='mx-1 bg-blue-400 px-1 rounded-full mb-1'
         <input type='text' className='text-black text-center rounded' placeholder='username' onChange={(e)=>setuserName(e.target.value)} value={username} ref={usernameref}/>
         <input type='text' placeholder='mobile' className='text-black  text-center rounded' onChange={(e)=>setmobile(e.target.value)} value={mobile}/>
         <button type='button' onClick={OrderTicket} className='rounded bg-green-300 text-black'> placeOrder </button>
-      {percentage!==0 &&  <Progress percent={percentage} status={status}  theme={
+        <div className='flex justify-center w-full text-white bg-gray-400 rounded-xl'>
+      {percentage!==0 &&  <Progress percent={percentage} status={status} width={50} 
+  strokeWidth={3} theme={
     {
       error: {
         symbol: percentage + '%',
@@ -156,12 +158,12 @@ const btn='mx-1 bg-blue-400 px-1 rounded-full mb-1'
         color: 'red'
       },
       default: {
-        symbol: percentage+ '%',
+        symbol: percentage + '%',
         trailColor: 'lightblue',
         color: 'blue'
       },
       active: {
-        symbol: percentage+ '%',
+        symbol: percentage + '%',
         trailColor: 'yellow',
         color: 'orange'
       },
@@ -170,7 +172,8 @@ const btn='mx-1 bg-blue-400 px-1 rounded-full mb-1'
         trailColor: 'lime',
         color: 'green'
       }
-    } }/>}
+    }
+  }/>}</div>
         </div>
     )
 }
